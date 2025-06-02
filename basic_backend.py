@@ -1,3 +1,5 @@
+from user import User
+
 class Pump():
     def __init__(self, status, id):
         self.status = status
@@ -50,7 +52,7 @@ class Pump():
             for i in range(len(self.customers - 1)):
                 self.customers[i].notify()
 
-#create a water mete class (subclass of pump? both subclasses of some "measurement" class??)
+#create a water meter class (subclass of pump? both subclasses of some "measurement" class??)
 
 #temporary person classes – remake into subclasses of person/user/whatever later
 class Customer():

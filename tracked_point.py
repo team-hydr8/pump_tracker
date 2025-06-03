@@ -18,7 +18,7 @@ class TrackedPoint():
         else:
             return self.maintenance[pos]
     
-    # maybe a way to get a specific maintenance team member by ID? probably unnecessary
+    # remove_maintenance function needs doing
     
     def check_damage(self, data):
         if data >= 90:

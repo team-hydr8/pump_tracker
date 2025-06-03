@@ -1,6 +1,6 @@
 # User and its subclasses (Customer, Employee)
 
-class User:
+class User():
     def __init__(self, name, id, password):
         self.name = name
         self.id = id

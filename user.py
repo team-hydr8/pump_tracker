@@ -23,12 +23,27 @@ class User:
         # this method should be hooked up to the UI - see what UI people need
         print("I have been notified")
 
-# Customer
-# is: a user
-# has: associated pump, balance?
-# is able to: adjust balance?
+# THIS IS NOT HOOKED UP TO THE PUMP CLASS YET – DO THIS!!
+class Customer(User):
+    def __init__(self, name, id, password, pump, balance):
+        super().__init__(name, id, password)
+        self.pump = pump
+        self.balance = balance
 
-# Employee
-# is: a user
-# has: 
-# is able to: get detailed notification, view employee view (may not be in this class)
+    def get_pump(self):
+        return self.pump
+    
+    def get_balance(self):
+        return self.balance
+
+    def adjustBalance(self, amount):
+        self.balance += amount
+
+class Employee(User):
+    # technically this init is unneeded but useful to have in case employees need more attributes later o7
+    def __init__(self, name, id, password):
+        super().__init__(name, id, password)
+
+    def notify(self, pump):
+        # hook up to the UI also
+        print("I have been notified about " + pump.get_id())

@@ -33,17 +33,17 @@ class TrackedPoint():
     def add_maintenance(self, employee):
         # add member of the maintenance team
         if type(employee) == Employee:
-            self.customers.append(employee)
+            self.maintenance.append(employee)
 
     def notify_damage(self):
         if self.status != PumpStatus.GREEN:
-            for i in range(len(self.maintenance) - 1):
+            for i in range(len(self.maintenance)):
                 self.maintenance[i].notify(self)
 
     
 class Pump(TrackedPoint):
     def __init__(self, id):
-        super.__init__(id)
+        super().__init__(id)
         self.customers = []
 
     def get_customer(self, pos):
@@ -59,15 +59,15 @@ class Pump(TrackedPoint):
 
     def notify_damage(self):
         if self.status != PumpStatus.GREEN:
-            for i in range(len(self.maintenance)  - 1):
+            for i in range(len(self.maintenance)):
                 self.maintenance[i].notify(self)
         if self.status == "red":
-            for i in range(len(self.customers) - 1):
+            for i in range(len(self.customers)):
                 self.customers[i].notify()
 
 class LevelMeter(TrackedPoint):
     def __init__(self, id):
-        super.__init__(id)
+        super().__init__(id)
 
     def check_damage(self, data):
     # level meters have higher alert thresholds because they can idnicate theft or other undetected issues

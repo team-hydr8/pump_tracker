@@ -36,7 +36,7 @@ class TrackedPoint():
 
     def notify_damage(self):
         if self.status != "green":
-            for i in range(len(self.maintenance - 1)):
+            for i in range(len(self.maintenance) - 1):
                 self.maintenance[i].notify(self)
 
     
@@ -58,10 +58,10 @@ class Pump(TrackedPoint):
 
     def notify_damage(self):
         if self.status != "green":
-            for i in range(len(self.maintenance - 1)):
+            for i in range(len(self.maintenance)  - 1):
                 self.maintenance[i].notify(self)
         if self.status == "red":
-            for i in range(len(self.customers - 1)):
+            for i in range(len(self.customers) - 1):
                 self.customers[i].notify()
 
 class LevelMeter(TrackedPoint):

@@ -48,3 +48,5 @@ class Backend():
         new_customer = Customer(name, id, password, self.pumps[pump_position], 0)
         self.pumps[pump_position].add_customer(new_customer)
         self.customers.append(new_customer)
+
+    

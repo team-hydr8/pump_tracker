@@ -1,9 +1,10 @@
 from user import Employee, Customer
+from enums import PumpStatus
 
 class TrackedPoint():
     def __init__(self, id):
         self.id = id
-        self.status = "green"
+        self.status = PumpStatus.GREEN
         self.maintenance = []
 
     def get_status(self):
@@ -23,11 +24,11 @@ class TrackedPoint():
     def check_damage(self, data):
         if data >= 90:
             # figure out how to enum in python and make status an enum
-            self.status = "green"
+            self.status = PumpStatus.GREEN
         elif data >= 50:
-            self.status = "yellow"
+            self.status = PumpStatus.YELLOW
         else:
-            self.status = "red"
+            self.status = PumpStatus.RED
 
     def add_maintenance(self, employee):
         # add member of the maintenance team
@@ -35,7 +36,7 @@ class TrackedPoint():
             self.customers.append(employee)
 
     def notify_damage(self):
-        if self.status != "green":
+        if self.status != PumpStatus.GREEN:
             for i in range(len(self.maintenance) - 1):
                 self.maintenance[i].notify(self)
 
@@ -57,7 +58,7 @@ class Pump(TrackedPoint):
             self.customers.append(customer)
 
     def notify_damage(self):
-        if self.status != "green":
+        if self.status != PumpStatus.GREEN:
             for i in range(len(self.maintenance)  - 1):
                 self.maintenance[i].notify(self)
         if self.status == "red":
@@ -71,8 +72,8 @@ class LevelMeter(TrackedPoint):
     def check_damage(self, data):
     # level meters have higher alert thresholds because they can idnicate theft or other undetected issues
         if data >= 95:
-            self.status = "green"
+            self.status = PumpStatus.GREEN
         elif data >= 75:
-            self.status = "yellow"
+            self.status = PumpStatus.YELLOW
         else:
-            self.status = "red"
+            self.status = PumpStatus.RED

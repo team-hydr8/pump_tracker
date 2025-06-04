@@ -1,4 +1,6 @@
 # User and its subclasses (Customer, Employee)
+from view import AppView
+from enums import ViewType
 
 class User():
     def __init__(self, name, id, password):
@@ -29,6 +31,10 @@ class Customer(User):
         super().__init__(name, id, password)
         self.pump = pump
         self.balance = balance
+        self.view = AppView(ViewType.CUSTOMER)
+
+    def get_view(self):
+        return self.view
 
     def get_pump(self):
         return self.pump
@@ -43,6 +49,10 @@ class Employee(User):
     # technically this init is unneeded but useful to have in case employees need more attributes later o7
     def __init__(self, name, id, password):
         super().__init__(name, id, password)
+        self.view = AppView(ViewType.EMPLOYEE)
+
+    def get_view(self):
+        return self.view
 
     def notify(self, pump):
         # hook up to the UI also

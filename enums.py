@@ -22,6 +22,10 @@ class ViewMode(Enum):
     DARK = 0
     LIGHT = 1
 
+class ViewType(Enum):
+    CUSTOMER = 0
+    EMPLOYEE = 1
+
 class MeasureSystem(Enum):
     METRIC = 0
     IMPERIAL = 1

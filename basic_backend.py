@@ -10,6 +10,7 @@ class Backend():
         self.pumps = []
         self.meters = []
         self.current_view = AppView(ViewType.CUSTOMER)
+        self.current_id = "none"
 
     def new_employee(self, name, id, password):
         new_emp = Employee(name, id, password)
@@ -75,6 +76,7 @@ class Backend():
 
         if success:
             print("Successfully logged in!")
+            self.current_id = user_id
             if is_customer:
                 self.current_view = self.customers[user_pos].get_view()
             else:
@@ -105,7 +107,7 @@ class Backend():
             if key < len(self.customers):
                 return self.customers[key]
         elif type(key) == str:
-            for i in range(len(self.self.customers)):
+            for i in range(len(self.customers)):
                 if self.customers[i].get_id() == key:
                     return self.customers[i]
         
@@ -117,7 +119,9 @@ class Backend():
             for i in range(len(self.self.meters)):
                 if self.meters[i].get_id() == key:
                     return self.meters[i]
-
+                
+    def update_customer_balance(self, customer_id, amount):
+        self.get_customer(customer_id).adjust_balance(amount)
 
 def run_test():
     backend = Backend()
@@ -131,6 +135,7 @@ def run_test():
 
     backend.new_customer("Smohn Jith", "FGHIJ", "correcthorsebatterystaple", "12345")
     print(backend.get_customer(0).get_pump().get_id())
+    print(backend.get_customer("FGHIJ").get_name())
 
     backend.login("XYZZY", "invalidpassword")
     backend.login("ABCDE", "invalidpassword")

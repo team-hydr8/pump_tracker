@@ -42,7 +42,7 @@ class Customer(User):
     def get_balance(self):
         return self.balance
 
-    def adjustBalance(self, amount):
+    def adjust_balance(self, amount):
         self.balance += amount
 
 class Employee(User):

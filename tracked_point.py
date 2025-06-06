@@ -18,12 +18,14 @@ class TrackedPoint():
             return -1
         else:
             return self.maintenance[pos]
-    
-    # remove_maintenance function needs doing
+        
+    def remove_maintenance(self, id):
+        for i in range(len(self.self.maintenance)):
+            if self.maintenance[i].get_id() == id:
+                self.maintenance.pop(i)
     
     def check_damage(self, data):
         if data >= 90:
-            # figure out how to enum in python and make status an enum
             self.status = PumpStatus.GREEN
         elif data >= 50:
             self.status = PumpStatus.YELLOW
@@ -68,12 +70,12 @@ class Pump(TrackedPoint):
 class LevelMeter(TrackedPoint):
     def __init__(self, id):
         super().__init__(id)
+        self.status = 100
 
     def check_damage(self, data):
-    # level meters have higher alert thresholds because they can idnicate theft or other undetected issues
-        if data >= 95:
-            self.status = PumpStatus.GREEN
-        elif data >= 75:
-            self.status = PumpStatus.YELLOW
-        else:
-            self.status = PumpStatus.RED
+        self.status = data
+
+    def notify_damage(self):
+        if self.status < 85:
+            for i in range(len(self.maintenance)):
+                self.maintenance[i].notify(self)

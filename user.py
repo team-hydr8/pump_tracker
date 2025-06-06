@@ -1,12 +1,14 @@
 # User and its subclasses (Customer, Employee)
+from tracked_point import Pump, LevelMeter
 from view import AppView
-from enums import ViewType
+from enums import ViewType, PumpStatus
 
 class User():
     def __init__(self, name, id, password):
         self.name = name
         self.id = id
         self.password = password
+        self.alerts = []
     
     # bad login make more secure later
     def login(self, pass_attempt):
@@ -21,11 +23,14 @@ class User():
     def get_id(self):
         return self.id
     
+    def get_alerts(self):
+        return self.alerts
+    
     def notify(self):
         # this method should be hooked up to the UI - see what UI people need
+        self.alerts.append("ALERT: There are disruptions in the water network that may impact you.")
         print("I have been notified")
 
-# THIS IS NOT HOOKED UP TO THE PUMP CLASS YET – DO THIS!!
 class Customer(User):
     def __init__(self, name, id, password, pump, balance):
         super().__init__(name, id, password)
@@ -55,5 +60,15 @@ class Employee(User):
         return self.view
 
     def notify(self, pump):
-        # hook up to the UI also
+        if type(pump) == Pump:
+            if pump.get_status() == PumpStatus.YELLOW:
+                self.alerts.append("ALERT: Pump " + pump.get_id() + " requires maintenance")
+            elif pump.get_status() == PumpStatus.RED:
+                self.alerts.append("ALERT: Pump " + pump.get_id() + " requires urgent maintenance")
+        elif type(pump) == LevelMeter:
+            if pump.get_status() >= 60:
+                self.alerts.append("ALERT: Level Meter " + pump.get_id() + " is at a low water level")
+            else:
+                self.alerts.append("ALERT: Level Meter " + pump.get_id() + " is at a severely low water level")
+                
         print("I have been notified about " + pump.get_id())

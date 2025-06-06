@@ -82,21 +82,42 @@ class Backend():
         else:
             print("Incorrect user ID or password")
 
-    def get_employee(self, position):
-        if position < len(self.employees):
-            return self.employees[position]
+    def get_employee(self, key):
+        if type(key) == int:
+            if key < len(self.employees):
+                return self.employees[key]
+        elif type(key) == str:
+            for i in range(len(self.employees)):
+                if self.employees[i].get_id() == key:
+                    return self.employees[i]
         
-    def get_pump(self, position):
-        if position < len(self.pumps):
-            return self.pumps[position]
+    def get_pump(self, key):
+        if type(key) == int:
+            if key < len(self.pumps):
+                return self.pumps[key]
+        elif type(key) == str:
+            for i in range(len(self.pumps)):
+                if self.pumps[i].get_id() == key:
+                    return self.pumps[i]
         
-    def get_customer(self, position):
-        if position < len(self.customers):
-            return self.customers[position]
+    def get_customer(self, key):
+        if type(key) == int:
+            if key < len(self.customers):
+                return self.customers[key]
+        elif type(key) == str:
+            for i in range(len(self.self.customers)):
+                if self.customers[i].get_id() == key:
+                    return self.customers[i]
         
-    def get_level_meter(self, position):
-        if position < len(self.meters):
-            return self.meters[position]
+    def get_level_meter(self, key):
+        if type(key) == int:
+            if key < len(self.meters):
+                return self.meters[key]
+        elif type(key) == str:
+            for i in range(len(self.self.meters)):
+                if self.meters[i].get_id() == key:
+                    return self.meters[i]
+
 
 def run_test():
     backend = Backend()

@@ -27,7 +27,7 @@ class MapSection(ttk.Frame):
         #Map displayed
         self.mapLabel = ttk.Label(self, text="Water Levels + Pump Integrity")
         self.mapLabel.grid(row=0, column=0, columnspan=1, sticky="w", padx=10)
-        self.mapSection = tk.Listbox(self, width=43)
+        self.mapSection = tk.Listbox(self, width=43, height=25)
         self.mapSection.grid(row=1, column=0, columnspan=1, sticky="nsew", padx=10, pady=10)
 
 

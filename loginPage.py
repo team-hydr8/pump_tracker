@@ -73,6 +73,14 @@ class LoginBox(ttk.Frame):
                 passwordBox.insert(0, "Password")
                 passwordBox.configure(foreground="gray")
 
+        #Function to show password onclick
+        def show_password():
+            if passwordBox.get()!="" or passwordBox.get()!="Password":
+                if hide.get()==1:
+                    passwordBox.config(show="")
+                elif hide.get()==0:
+                    passwordBox.config(show="*")
+
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
@@ -80,22 +88,23 @@ class LoginBox(ttk.Frame):
         self.rowconfigure(3, weight=1)
 
         #Username entry details
-        #nameLabel = ttk.Label(self, text = 'Username', font=('calibre',10, 'bold'))
         nameBox = ttk.Entry(self, font=('calibre',10,'normal'), foreground="gray")
         nameBox.insert(0, "Username")
         nameBox.bind("<FocusIn>", nameBox_focus_in)
         nameBox.bind("<FocusOut>", nameBox_focus_out)
 
         #Password entry details
-        #passwordLabel = ttk.Label(self, text = 'Password', font = ('calibre',10,'bold'))
         passwordBox = ttk.Entry(self, font = ('calibre',10,'normal'), foreground="gray")
         passwordBox.insert(0, "Password")
         passwordBox.bind("<FocusIn>", passwordBox_focus_in)
         passwordBox.bind("<FocusOut>", passwordBox_focus_out)
 
+        #Unhides/Hides the password after checking/unchecking the box respectively
+        hide = tk.IntVar()
+        checkbox = ttk.Checkbutton(self, text="show password", variable=hide, onvalue=1, offvalue=0, command= show_password)
+
         submitButton=ttk.Button(self,text = 'Submit', command = submit)
-        #nameLabel.grid(row=1,column=0)
         nameBox.grid(row=0,column=0, columnspan=2, sticky="ew", pady=5)
-        #passwordLabel.grid(row=2,column=0)
         passwordBox.grid(row=1,column=0, columnspan=2, sticky="ew", pady=5)
-        submitButton.grid(row=2,column=0, columnspan=2, pady=10)
+        checkbox.grid(row=2, column=0, columnspan=2, sticky="ew", pady=10)
+        submitButton.grid(row=3,column=0, columnspan=2, pady=10)

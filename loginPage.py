@@ -20,8 +20,8 @@ class Login(ttk.Frame):
         self.rowconfigure(2, weight=1)
 
         #Label of app title, "Hydr8"
-        self.userIcon_label = tk.Label(self, text="Hydr8", font=('calibre', 25,'bold'))
-        self.userIcon_label.grid(row=0, column=0, columnspan=2, sticky="new", pady=(0, 20))
+        self.appTitle_label = tk.Label(self, text="Hydr8", font=('calibre', 25,'bold'))
+        self.appTitle_label.grid(row=0, column=0, columnspan=2, sticky="new", pady=(0, 20))
 
         #Opening and creating user icon image
         self.userIcon = Image.open("images/userIcon.png").resize((100, 100))

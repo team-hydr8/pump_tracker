@@ -1,5 +1,6 @@
 from enum import Enum
 
+# main backend class
 class Backend():
     def __init__(self):
         self.employees = []
@@ -9,6 +10,7 @@ class Backend():
         self.current_view = AppView(ViewType.CUSTOMER)
         self.current_id = "none"
 
+    # methods to create new instances of each major object and add to their respective array
     def new_employee(self, name, id, password):
         new_emp = Employee(name, id, password)
 
@@ -50,6 +52,7 @@ class Backend():
         self.pumps[pump_position].add_customer(new_customer)
         self.customers.append(new_customer)
 
+    # login function – user_id is equivalent to a username
     def login(self, user_id, password) -> bool:
         is_customer = False
         user_pos = -1
@@ -83,6 +86,7 @@ class Backend():
 
         return success
 
+    # getters
     def get_employee(self, key):
         if type(key) == int:
             if key < len(self.employees):
@@ -119,9 +123,17 @@ class Backend():
                 if self.meters[i].get_id() == key:
                     return self.meters[i]
                 
+    def get_current_view(self):
+        return self.current_view
+    
+    def get_current_id(self):
+        return self.current_id
+                
+    # built-in method to update a balance - remove money by having negative amount
     def update_customer_balance(self, customer_id, amount):
         self.get_customer(customer_id).adjust_balance(amount)
 
+# User classes
 class User():
     def __init__(self, name, id, password):
         self.name = name
@@ -129,7 +141,7 @@ class User():
         self.password = password
         self.alerts = []
     
-    # bad login make more secure later
+    # potential future security improvement here
     def login(self, pass_attempt):
         if (pass_attempt == self.password):
             return True
@@ -145,11 +157,13 @@ class User():
     def get_alerts(self):
         return self.alerts
     
+    # notify method - currently adds to a list of alerts that can be got, can be edited if the UI team need
     def notify(self):
-        # this method should be hooked up to the UI - see what UI people need
         self.alerts.append("ALERT: There are disruptions in the water network that may impact you.")
         print("I have been notified")
 
+# worth noting – the associated pump here is the pump that serves the customer. 
+# customers should not be alerted about all pumps, this may be a security risk
 class Customer(User):
     def __init__(self, name, id, password, pump, balance):
         super().__init__(name, id, password)
@@ -166,11 +180,11 @@ class Customer(User):
     def get_balance(self):
         return self.balance
 
+    # method to adjust prepaid balance
     def adjust_balance(self, amount):
         self.balance += amount
 
 class Employee(User):
-    # technically this init is unneeded but useful to have in case employees need more attributes later o7
     def __init__(self, name, id, password):
         super().__init__(name, id, password)
         self.view = AppView(ViewType.EMPLOYEE)
@@ -178,6 +192,7 @@ class Employee(User):
     def get_view(self):
         return self.view
 
+    # more in-depth notification for employees
     def notify(self, pump):
         if type(pump) == Pump:
             if pump.get_status() == PumpStatus.YELLOW:
@@ -192,6 +207,7 @@ class Employee(User):
                 
         print("I have been notified about " + pump.get_id())
 
+# classes for the tracked points on the map
 class TrackedPoint():
     def __init__(self, id):
         self.id = id
@@ -209,12 +225,19 @@ class TrackedPoint():
             return -1
         else:
             return self.maintenance[pos]
+
+    # methods to manage maintenance team    
+    def add_maintenance(self, employee):
+        if type(employee) == Employee:
+            self.maintenance.append(employee)
         
     def remove_maintenance(self, id):
         for i in range(len(self.self.maintenance)):
             if self.maintenance[i].get_id() == id:
                 self.maintenance.pop(i)
     
+    # input data is the reading from whatever hypothetical damage-detectors (or maybe just maintenance reports) 
+    # should be a number from 0-100 where 100 represents something that is at 100% integrity
     def check_damage(self, data):
         if data >= 90:
             self.status = PumpStatus.GREEN
@@ -222,11 +245,6 @@ class TrackedPoint():
             self.status = PumpStatus.YELLOW
         else:
             self.status = PumpStatus.RED
-
-    def add_maintenance(self, employee):
-        # add member of the maintenance team
-        if type(employee) == Employee:
-            self.maintenance.append(employee)
 
     def notify_damage(self):
         if self.status != PumpStatus.GREEN:
@@ -245,9 +263,13 @@ class Pump(TrackedPoint):
             return self.customers[pos]
         
     def add_customer(self, customer):
-        # add customer
         if type(customer) == Customer:
             self.customers.append(customer)
+
+    def remove_customer(self, id):
+        for i in range(len(self.self.customers)):
+            if self.customers[i].get_id() == id:
+                self.customers.pop(i)
 
     def notify_damage(self):
         if self.status != PumpStatus.GREEN:
@@ -257,6 +279,8 @@ class Pump(TrackedPoint):
             for i in range(len(self.customers)):
                 self.customers[i].notify()
 
+# customers should never be notified about level meters – these are internal
+# also level meters use the raw percentage instead of green/yellow/red abstraction
 class LevelMeter(TrackedPoint):
     def __init__(self, id):
         super().__init__(id)
@@ -281,6 +305,7 @@ class AppView():
             self.view_type = ViewType.CUSTOMER
         self.measure = MeasureSystem.METRIC
 
+# assorted enums
 class PumpStatus(Enum):
     GREEN = 1
     YELLOW = 2
@@ -313,6 +338,7 @@ class MeasureSystem(Enum):
 
 current_backend = Backend()
 
+# test functions
 def run_test():
     current_backend.new_pump("12345")
     #print(backend.get_pump(0).get_id())
@@ -334,6 +360,7 @@ def run_test():
     print(current_backend.current_view.language)
     print(current_backend.current_view.view_type)
 
-run_test()
+if __name__ == "__main__":
+    run_test()
      
 

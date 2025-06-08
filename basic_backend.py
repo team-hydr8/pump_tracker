@@ -360,7 +360,9 @@ def run_test():
     print(current_backend.current_view.language)
     print(current_backend.current_view.view_type)
 
-if __name__ == "__main__":
-    run_test()
+    current_backend.get_pump("12345").check_damage(58)
+    current_backend.get_pump("12345").notify_damage()
+
+run_test()
      
 

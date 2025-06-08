@@ -17,8 +17,11 @@ class Login(ttk.Frame):
         self.controller = controller
         
         self.columnconfigure(0, weight=1)
-        #self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=1)
+
+        #Label of app title, "Hydr8"
+        self.userIcon_label = tk.Label(self, text="Hydr8", font=('calibre', 25,'bold'))
+        self.userIcon_label.grid(row=0, column=0, columnspan=2, sticky="new", pady=(0, 20))
 
         #Opening and creating user icon image
         self.userIcon = Image.open("images/userIcon.png").resize((100, 100))
@@ -26,10 +29,10 @@ class Login(ttk.Frame):
 
         #Using label to place the user icon image
         self.userIcon_label = tk.Label(self, image=self.userIcon)
-        self.userIcon_label.grid(row=0, column=0, columnspan=2, sticky="new", pady=30)
+        self.userIcon_label.grid(row=1, column=0, columnspan=2, sticky="ew", pady=30)
 
         notification = LoginBox(self,controller=controller)
-        notification.grid(row=1, column=0, sticky="new", padx=5)
+        notification.grid(row=2, column=0, sticky="new", padx=5)
 
 class LoginBox(ttk.Frame):
     def __init__(self, parent, controller):

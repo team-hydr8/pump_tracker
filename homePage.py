@@ -32,6 +32,6 @@ class Notification(ttk.Frame):
         self.alerts.grid(row=1, column=0, columnspan=1, sticky="nsew", padx=10, pady=10)
 
         user_alerts = basic_backend.current_backend.get_customer(basic_backend.current_backend.current_id).get_alerts()
-        print(user_alerts)
         for i in range(len(user_alerts)):
-            print(user_alerts[i])
+            alert = user_alerts[i]
+            self.alerts.insert(i,alert)

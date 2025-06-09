@@ -1,4 +1,5 @@
 from enum import Enum
+import sqlite3
 
 # main backend class
 class Backend():
@@ -320,8 +321,19 @@ def run_test():
 
     current_backend.get_pump("12345").check_damage(40)
     current_backend.notify_point("12345")
-    current_backend.get_pump("12345").notify_damage()
+    current_backend.get_pump("12345").check_damage(20)
+    current_backend.notify_point("12345")
 
-run_test()
+def read_data():
+    conn = sqlite3.connect("database.py")
+    cur = conn.cursor()
+
+
+    cur.execute('SELECT * FROM TABLENAME')
+    rows = cur.fetchall()
+    conn.close()
+    for row in rows:
+        print (row)
+
      
-
+read_data()

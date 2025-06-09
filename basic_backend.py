@@ -320,6 +320,7 @@ def run_test():
 
     current_backend.get_pump("12345").check_damage(40)
     current_backend.notify_point("12345")
+    current_backend.get_pump("12345").notify_damage()
 
 run_test()
      

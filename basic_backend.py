@@ -14,27 +14,15 @@ class Backend():
     def new_employee(self, name, id, password):
         new_emp = Employee(name, id, password)
 
-        for i in range(len(self.pumps)):
-            self.pumps[i].add_maintenance(new_emp)
-
-        for i in range(len(self.meters)):
-            self.meters[i].add_maintenace(new_emp)
-
         self.employees.append(new_emp)
 
     def new_pump(self, id):
         new_p = Pump(id)
         self.pumps.append(new_p)
 
-        for i in range(len(self.employees)):
-            new_p.add_maintenance(self.employees[i])
-
     def new_meter(self, id):
         new_m = LevelMeter(id)
         self.meters.append(new_m)
-
-        for i in range(len(self.employees)):
-            new_m.add_maintenance(self.employees[i])
 
     def new_customer(self, name, id, password, pump_id):
         pump_found = False
@@ -49,7 +37,6 @@ class Backend():
             pump_position = len(self.pumps) - 1
 
         new_customer = Customer(name, id, password, self.pumps[pump_position], 0)
-        self.pumps[pump_position].add_customer(new_customer)
         self.customers.append(new_customer)
 
     # login function – user_id is equivalent to a username
@@ -119,7 +106,7 @@ class Backend():
             if key < len(self.meters):
                 return self.meters[key]
         elif type(key) == str:
-            for i in range(len(self.self.meters)):
+            for i in range(len(self.meters)):
                 if self.meters[i].get_id() == key:
                     return self.meters[i]
                 
@@ -132,6 +119,27 @@ class Backend():
     # built-in method to update a balance - remove money by having negative amount
     def update_customer_balance(self, customer_id, amount):
         self.get_customer(customer_id).adjust_balance(amount)
+
+    def notify_point(self, point_id):
+        is_pump = False
+        for i in range(len(self.customers)):
+            if self.pumps[i].get_id() == point_id:
+                is_pump = True
+
+        if is_pump:
+            if self.get_pump(point_id).get_status() != PumpStatus.GREEN:
+                for i in range(len(self.employees)):
+                    self.employees[i].notify(self.get_pump(point_id))
+            
+            if self.get_pump(point_id).get_status() == PumpStatus.RED:
+                for i in range(len(self.customers)):
+                    if self.customers[i].get_pump().get_id() == point_id:
+                        self.customers[i].notify()
+        else:
+            if self.get_level_meter(point_id).get_status() < 85:
+                for i in range(len(self.employees)):
+                    self.employees[i].notify(self.get_level_meter(point_id))
+
 
 # User classes
 class User():
@@ -212,29 +220,12 @@ class TrackedPoint():
     def __init__(self, id):
         self.id = id
         self.status = PumpStatus.GREEN
-        self.maintenance = []
 
     def get_status(self):
         return self.status
     
     def get_id(self):
         return self.id
-    
-    def get_maintenance(self, pos):
-        if pos >= len(self.maintenance):
-            return -1
-        else:
-            return self.maintenance[pos]
-
-    # methods to manage maintenance team    
-    def add_maintenance(self, employee):
-        if type(employee) == Employee:
-            self.maintenance.append(employee)
-        
-    def remove_maintenance(self, id):
-        for i in range(len(self.self.maintenance)):
-            if self.maintenance[i].get_id() == id:
-                self.maintenance.pop(i)
     
     # input data is the reading from whatever hypothetical damage-detectors (or maybe just maintenance reports) 
     # should be a number from 0-100 where 100 represents something that is at 100% integrity
@@ -246,38 +237,10 @@ class TrackedPoint():
         else:
             self.status = PumpStatus.RED
 
-    def notify_damage(self):
-        if self.status != PumpStatus.GREEN:
-            for i in range(len(self.maintenance)):
-                self.maintenance[i].notify(self)
-
 class Pump(TrackedPoint):
+    # a bit redundant now but worth differentiating in case of future changes
     def __init__(self, id):
         super().__init__(id)
-        self.customers = []
-
-    def get_customer(self, pos):
-        if pos >= len(self.customers):
-            return -1
-        else:
-            return self.customers[pos]
-        
-    def add_customer(self, customer):
-        if type(customer) == Customer:
-            self.customers.append(customer)
-
-    def remove_customer(self, id):
-        for i in range(len(self.self.customers)):
-            if self.customers[i].get_id() == id:
-                self.customers.pop(i)
-
-    def notify_damage(self):
-        if self.status != PumpStatus.GREEN:
-            for i in range(len(self.maintenance)):
-                self.maintenance[i].notify(self)
-        if self.status == "red":
-            for i in range(len(self.customers)):
-                self.customers[i].notify()
 
 # customers should never be notified about level meters – these are internal
 # also level meters use the raw percentage instead of green/yellow/red abstraction
@@ -288,11 +251,6 @@ class LevelMeter(TrackedPoint):
 
     def check_damage(self, data):
         self.status = data
-
-    def notify_damage(self):
-        if self.status < 85:
-            for i in range(len(self.maintenance)):
-                self.maintenance[i].notify(self)
 
 class AppView():
     def __init__(self, view_type):
@@ -360,8 +318,8 @@ def run_test():
     print(current_backend.current_view.language)
     print(current_backend.current_view.view_type)
 
-    current_backend.get_pump("12345").check_damage(58)
-    current_backend.get_pump("12345").notify_damage()
+    current_backend.get_pump("12345").check_damage(40)
+    current_backend.notify_point("12345")
 
 run_test()
      

@@ -2,7 +2,8 @@
 
 CREATE TABLE Staff (
     StaffNo INTEGER PRIMARY KEY AUTOINCREMENT,
-    Name TEXT NOT NULL,
+    Name TEXT NOT NULL UNIQUE,
+    Password TEXT NOT NULL,
     Region TEXT,
     Role TEXT,
     AccessLevel INTEGER CHECK (AccessLevel >= 0)
@@ -43,7 +44,8 @@ CREATE TABLE Task (
 
 CREATE TABLE Customer (
     CustNo INTEGER PRIMARY KEY AUTOINCREMENT,
-    Name TEXT NOT NULL,
+    Name TEXT NOT NULL UNIQUE,
+    Password TEXT NOT NULL,
     Region TEXT,
     Balance REAL DEFAULT 0 CHECK (Balance >= 0),
     WaterUsage REAL DEFAULT 0

@@ -27,68 +27,68 @@ class Login(ttk.Frame):
 class LoginBox(ttk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
+        self.controller = controller
 
-        def submit():
-            if current_backend.login(nameBox.get(),passwordBox.get()):
-                controller.show_frame(homePage.Home)
-            else:
-                loginWarning = ttk.Label(self, text = '*Incorrect user ID or password', font=current_backend.get_font("default_bold"), foreground="red")
-                loginWarning.grid(row=4, column=0, columnspan=2, sticky="ew", pady=2)
+        self.nameBox = ttk.Entry(self, font=current_backend.get_font(), foreground="gray")
+        self.nameBox.insert(0, "Username")
+        self.nameBox.bind("<FocusIn>", self.nameBox_focus_in)
+        self.nameBox.bind("<FocusOut>", self.nameBox_focus_out)
 
-        def submit_on_enter(event):
-            submit()
+        self.passwordBox = ttk.Entry(self, font=current_backend.get_font(), foreground="gray")
+        self.passwordBox.insert(0, "Password")
+        self.passwordBox.bind("<FocusIn>", self.passwordBox_focus_in)
+        self.passwordBox.bind("<FocusOut>", self.passwordBox_focus_out)
+        self.passwordBox.bind("<Return>", self.submit_on_enter)
 
-        def nameBox_focus_in(event):
-            if nameBox.get() == "Username":
-                nameBox.delete(0, tk.END)
-                nameBox.configure(foreground="black")
-
-        def nameBox_focus_out(event):
-            if nameBox.get() == "":
-                nameBox.insert(0, "Username")
-                nameBox.configure(foreground="gray")
-
-        def passwordBox_focus_in(event):
-            if passwordBox.get() == "Password":
-                if hide.get() == 0:
-                    passwordBox.config(show="*")
-                passwordBox.delete(0, tk.END)
-                passwordBox.configure(foreground="black")
-
-        def passwordBox_focus_out(event):
-            if passwordBox.get() == "":
-                passwordBox.config(show="")
-                passwordBox.insert(0, "Password")
-                passwordBox.configure(foreground="gray")
-
-        def show_password():
-            if passwordBox.get() == "Password":
-                return
-            
-            if hide.get() == 1:
-                passwordBox.config(show="")
-            else:
-                passwordBox.config(show="*")
-
-        self.columnconfigure(0, weight=1)
-        
-        nameBox = ttk.Entry(self, font=current_backend.get_font(), foreground="gray")
-        nameBox.insert(0, "Username")
-        nameBox.bind("<FocusIn>", nameBox_focus_in)
-        nameBox.bind("<FocusOut>", nameBox_focus_out)
-
-        passwordBox = ttk.Entry(self, font=current_backend.get_font(), foreground="gray")
-        passwordBox.insert(0, "Password")
-        passwordBox.bind("<FocusIn>", passwordBox_focus_in)
-        passwordBox.bind("<FocusOut>", passwordBox_focus_out)
-        passwordBox.bind("<Return>", submit_on_enter)
-
-        hide = tk.IntVar()
-        checkbox = ttk.Checkbutton(self, text="show password", variable=hide, onvalue=1, offvalue=0, command= show_password)
+        self.hide = tk.IntVar()
+        checkbox = ttk.Checkbutton(self, text="show password", variable=self.hide, onvalue=1, offvalue=0, command=self.show_password)
 
         submitButton=ttk.Button(self,text = 'Submit', command = submit)
 
-        nameBox.grid(row=0,column=0, columnspan=2, sticky="ew", pady=5)
-        passwordBox.grid(row=1,column=0, columnspan=2, sticky="ew", pady=5)
+        self.nameBox.grid(row=0,column=0, columnspan=2, sticky="ew", pady=5)
+        self.passwordBox.grid(row=1,column=0, columnspan=2, sticky="ew", pady=5)
         checkbox.grid(row=2, column=0, sticky="w")
         submitButton.grid(row=3,column=0, columnspan=2, pady=10)
+        self.columnconfigure(0, weight=1)
+
+    def submit(self):
+        if current_backend.login(self.nameBox.get(), self.passwordBox.get()):
+            self.controller.show_frame(homePage.Home)
+        else:
+            loginWarning = ttk.Label(self, text = '*Incorrect user ID or password', font=current_backend.get_font("default_bold"), foreground="red")
+            loginWarning.grid(row=4, column=0, columnspan=2, sticky="ew", pady=2)
+
+    def submit_on_enter(self, event):
+        self.submit()
+
+    def nameBox_focus_in(self, event):
+        if self.nameBox.get() == "Username":
+            self.nameBox.delete(0, tk.END)
+            self.nameBox.configure(foreground="black")
+
+    def nameBox_focus_out(self, event):
+        if self.nameBox.get() == "":
+            self.nameBox.insert(0, "Username")
+            self.nameBox.configure(foreground="gray")
+
+    def passwordBox_focus_in(self, event):
+        if self.passwordBox.get() == "Password":
+            if self.hide.get() == 0:
+                self.passwordBox.config(show="*")
+            self.passwordBox.delete(0, tk.END)
+            self.passwordBox.configure(foreground="black")
+
+    def passwordBox_focus_out(self, event):
+        if self.passwordBox.get() == "":
+            self.passwordBox.config(show="")
+            self.passwordBox.insert(0, "Password")
+            self.passwordBox.configure(foreground="gray")
+
+    def show_password(self):
+        if self.passwordBox.get() == "Password":
+            return
+        
+        if self.hide.get() == 1:
+            self.passwordBox.config(show="")
+        else:
+            self.passwordBox.config(show="*")

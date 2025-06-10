@@ -113,7 +113,7 @@ class AppView():
         self.measure = MeasureSystem.METRIC
 
 class User:
-    def __init__(self, id, name, region):
+    def __init__(self, id:int, name:str, region:str):
         self.id = id
         self.name = name
         self.region = region
@@ -154,7 +154,7 @@ class Customer(User):
 
 
 class Employee(User):
-    def __init__(self, id, name, region, role, access_level):
+    def __init__(self, id:int, name:str, region:str, role:str, access_level:int):
         super().__init__(id, name, region)
         self.role = role
         self.access_level = access_level

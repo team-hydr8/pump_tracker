@@ -45,7 +45,7 @@ into the database.
 
 
 ### Generating account credentials:
-To generate a new account, use
+To generate account credentials, use
 ```sh
 python generate.py <password to hash>
 ```

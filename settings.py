@@ -11,8 +11,11 @@ class Settings(ttk.Frame):
         settings_frame = ttk.LabelFrame(self, text="Display Settings")
         settings_frame.pack(fill="x", padx=15, pady=10)
         settings_frame.columnconfigure(1, weight=1)
-
-        ttk.Label(settings_frame, text="Language:", font=backend.current_backend.get_font()).grid(row=0, column=0, sticky="w", padx=5, pady=5)
+        
+        lang_label_frame = ttk.Frame(settings_frame)
+        lang_label_frame.grid(row=0, column=0, sticky="w", padx=5, pady=5)
+        ttk.Label(lang_label_frame, text="Language", font=backend.current_backend.get_font()).pack(side="left")
+        ttk.Label(lang_label_frame, text="🌐", font=("Calibre", 16)).pack(side="left", padx=(2,0))
         self.language_var = tk.StringVar(value=backend.current_backend.get_language())
         language_combo = ttk.Combobox(settings_frame, textvariable=self.language_var, values=["English", "Afrikaans", "isiZulu"], state="readonly", font=backend.current_backend.get_font())
         language_combo.grid(row=0, column=1, sticky="ew", padx=5, pady=5)

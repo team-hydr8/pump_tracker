@@ -23,7 +23,7 @@ class Application(tk.Tk):
             self.profile = Profile(self, controller=self)
             self.profile.grid(row=0, column=0, sticky="new", padx=5, pady=5)
 
-            self.section = Section(self, controller=self)
+            self.section = Section(self, controller=self, active_frame=frame_class)
             self.section.grid(row=2, column=0, sticky="sew", padx=5, pady=5)
             
         self.current_frame = frame_class(self.container, controller=self)
@@ -105,7 +105,7 @@ class Profile(ttk.Frame):
 
 
 class Section(ttk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, active_frame):
         super().__init__(parent)
         self.controller = controller
 
@@ -139,3 +139,10 @@ class Section(ttk.Frame):
 
         self.waterIcon_btn = ttk.Button(self, image=self.waterIcon, command=open_water)
         self.waterIcon_btn.grid(row=0, column=2, columnspan=1, sticky="nsew")
+        
+        if active_frame == statusPage.Map:
+            self.maintenanceIcon_btn.state(['pressed'])
+        elif active_frame == homePage.Home:
+            self.homeIcon_btn.state(['pressed'])
+        elif active_frame == accountPage.Water:
+            self.waterIcon_btn.state(['pressed'])

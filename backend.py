@@ -286,12 +286,12 @@ class Backend:
         self.view_settings.measure = MeasureSystem("Imperial" if "Imperial" in unit_string else "Metric")
         
     def get_measurement_unit_string(self):
-        return f"{self.view_settings.measure.value} (Liters)" if self.view_settings.measure == MeasureSystem.METRIC else f"{self.view_settings.measure.value} (Gallons)"
+        return f"{self.view_settings.measure.value} (Litres)" if self.view_settings.measure == MeasureSystem.METRIC else f"{self.view_settings.measure.value} (Gallons)"
 
-    def convert_volume(self, value_liters):
+    def convert_volume(self, value_litres):
         if self.view_settings.measure == MeasureSystem.IMPERIAL:
-            return (value_liters * 0.264172, "gal")
-        return (value_liters, "L")
+            return (value_litres * 0.264172, "gal")
+        return (value_litres, "L")
         
     def set_font_size(self, size_str):
         self.font_size_str = size_str

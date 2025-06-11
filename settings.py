@@ -23,7 +23,7 @@ class Settings(ttk.Frame):
 
         ttk.Label(settings_frame, text="Units:", font=backend.current_backend.get_font()).grid(row=1, column=0, sticky="w", padx=5, pady=5)
         self.units_var = tk.StringVar(value=backend.current_backend.get_measurement_unit_string())
-        units_combo = ttk.Combobox(settings_frame, textvariable=self.units_var, values=["Metric (Liters)", "Imperial (Gallons)"], state="readonly", font=backend.current_backend.get_font())
+        units_combo = ttk.Combobox(settings_frame, textvariable=self.units_var, values=["Metric (Litres)", "Imperial (Gallons)"], state="readonly", font=backend.current_backend.get_font())
         units_combo.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
         units_combo.bind("<<ComboboxSelected>>", self.on_setting_change)
 

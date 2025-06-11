@@ -19,7 +19,9 @@ INSERT INTO WaterTank (StaffNo, WaterLevel, Integrity, Region, Active) VALUES
 
 INSERT INTO Task (StaffNo, PumpID, TankID, Description, Priority, Completed) VALUES
 (1, 1, 1, 'Inspect pump integrity and report status.', 'High', 0),
-(2, 2, 2, 'Routine maintenance check on tank and pump.', 'Medium', 1),
+(2, 2, 2, 'Routine maintenance check on tank and pump.', 'High', 1),
+(1, 1, 1, 'Routine maintenance check on tank and pump.', 'Medium', 0),
+(2, 2, 2, 'Inspect pump integrity and report status.', 'Medium', 1),
 (3, NULL, NULL, 'Fix app bug #5279.', 'High', 0);
 
 INSERT INTO Customer (Name, Password, Region, Balance, WaterUsage) VALUES

@@ -41,9 +41,9 @@ class LoginBox(ttk.Frame):
         self.passwordBox.bind("<Return>", self.submit_on_enter)
 
         self.hide = tk.IntVar()
-        checkbox = ttk.Checkbutton(self, text="show password", variable=self.hide, onvalue=1, offvalue=0, command=self.show_password)
+        checkbox = ttk.Checkbutton(self, text="Show password", variable=self.hide, onvalue=1, offvalue=0, command=self.show_password)
 
-        submitButton=ttk.Button(self,text = 'Submit', command=self.submit)
+        submitButton=ttk.Button(self,text = 'Login', command=self.submit)
 
         self.nameBox.grid(row=0,column=0, columnspan=2, sticky="ew", pady=5)
         self.passwordBox.grid(row=1,column=0, columnspan=2, sticky="ew", pady=5)

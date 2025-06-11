@@ -77,7 +77,7 @@ class Profile(ttk.Frame):
         self.userIcon_label.bind("<Button-1>", self.handle_profile_click)
 
         if self.current_user:
-            login_text = self.current_user.get_name()
+            login_text = self.current_user.get_name() + " - Logout"
         else:
             login_text = "Click to sign in"
 

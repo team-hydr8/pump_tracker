@@ -101,7 +101,7 @@ class Map(ttk.Frame):
                 region = f"Region: {pump.region}" if is_staff else None
                 
                 converted_usage, unit_label = backend.current_backend.convert_volume(pump.get_water_usage())
-                usage_text = f"Usage: {converted_usage:,.1f} {unit_label}"
+                usage_text = f"Monthly Usage: {converted_usage:,.1f} {unit_label}"
                 
                 create_item_frame(parent_frame, current_row, pump_icon, f"Pump ID: {pump.get_id()}", region, f"Status: {status}", f"Integrity: {pump.get_integrity()}%", usage_text, color)
                 current_row += 1

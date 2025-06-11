@@ -7,7 +7,7 @@
  - [homePage.py](./homePage.py)
  - [loginPage.py](./loginPage.py)
  - [accountPage.py](./accountPage.py)
- - [settingsPage.py](./settingsPage.py)
+ - [statusPage.py](./statusPage.py)
  - [settings.py](./settings.py)
 
 **The backend is contained within:**

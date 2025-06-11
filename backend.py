@@ -125,6 +125,9 @@ class User:
     def get_id(self):
         return self.id
 
+    def get_account_details(self):
+        return [ f"Name: {self.get_name()}" ]
+
 class Customer(User):
     def __init__(self, id, name, region, balance, water_usage):
         super().__init__(id, name, region)
@@ -139,8 +142,7 @@ class Customer(User):
         
     def get_account_details(self):
         converted_usage, unit_label = current_backend.convert_volume(self.water_usage)
-        return [
-            f"Customer Name: {self.get_name()}",
+        return super().get_account_details() + [
             f"Region: {self.region}",
             f"Account Balance: R{self.get_balance():.2f}",
             f"Monthly Water Usage: {converted_usage:,.1f} {unit_label}"
@@ -163,6 +165,12 @@ class Employee(User):
     def get_alerts(self):
         tasks = db_query("SELECT Description, Priority FROM Task WHERE StaffNo = ? AND Completed = 0 ORDER BY Priority", (self.get_id(),))
         return [f"PRIORITY: {priority} - {desc}" for desc, priority in tasks]
+
+    def get_account_details(self):
+        return super().get_account_details() + [
+            f"Role: {self.role}",
+            f"Access level: {self.access_level}"
+        ]
 
 class Backend:
     def __init__(self):

@@ -25,7 +25,7 @@ class Shop(ttk.Frame):
         meter_listbox = tk.Listbox(self, height=5, font=backend.current_backend.get_font())
         meter_listbox.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
         
-        if isinstance(current_user, backend.Customer):
+        if isinstance(current_user, backend.User):
             account_details = current_user.get_account_details()
             for i, detail in enumerate(account_details):
                 meter_listbox.insert(i, detail)

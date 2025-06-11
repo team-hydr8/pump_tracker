@@ -121,7 +121,9 @@ class Map(ttk.Frame):
                 current_row += 1
         
     def get_status_info(self, status_enum):
-        if status_enum == backend.PumpStatus.GREEN:
+        if status_enum == backend.PumpStatus.INACTIVE:
+            return "Inactive", "gray"
+        elif status_enum == backend.PumpStatus.GREEN:
             return "Good", "green"
         elif status_enum == backend.PumpStatus.YELLOW:
             return "Warning", "orange"

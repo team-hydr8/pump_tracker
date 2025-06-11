@@ -45,6 +45,7 @@ def db_execute(query, params=()):
         return False
 
 class PumpStatus(Enum):
+    INACTIVE = 0
     GREEN = 1
     YELLOW = 2
     RED = 3
@@ -71,7 +72,7 @@ class TrackedPoint():
 
     def _get_status_from_integrity(self):
         if not self.active:
-            return PumpStatus.GREEN
+            return PumpStatus.INACTIVE
         if self.integrity >= 90:
             return PumpStatus.GREEN
         elif self.integrity >= 50:

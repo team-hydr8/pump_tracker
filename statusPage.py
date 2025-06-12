@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from PIL import ImageTk, Image
 import backend
+from page import AppPage
 
-class Map(ttk.Frame):
+class Map(AppPage):
     def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
+        super().__init__(parent, controller)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)

@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import backend
+from page import AppPage
 
-class Settings(ttk.Frame):
+class Settings(AppPage):
     def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
+        super().__init__(parent, controller)
         self.current_user = backend.current_backend.get_current_user()
 
         settings_frame = ttk.LabelFrame(self, text="Display Settings")

@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 import backend
+from page import AppPage
 
-class Water(ttk.Frame):
+class Water(AppPage):
     def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
+        super().__init__(parent, controller)
         self.columnconfigure(0, weight=1)
         
         shop = Shop(self)

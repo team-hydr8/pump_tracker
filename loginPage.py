@@ -3,11 +3,11 @@ from tkinter import ttk
 from PIL import ImageTk, Image
 from backend import current_backend
 import homePage
+from page import AppPage
 
-class Login(ttk.Frame):
+class Login(AppPage):
     def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
+        super().__init__(parent, controller)
         
         self.columnconfigure(0, weight=1)
         self.rowconfigure(2, weight=1)
